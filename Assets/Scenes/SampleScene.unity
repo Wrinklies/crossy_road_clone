@@ -494,13 +494,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5644133064174452605, guid: b1038f50ef355ce4aa16c458ed6904a2, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7cfc84b121d236041832b7c852afc5b0, type: 2}
     - target: {fileID: 8128668236925612103, guid: b1038f50ef355ce4aa16c458ed6904a2, type: 3}
       propertyPath: m_Name
-      value: scene
+      value: Sheep
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: b1038f50ef355ce4aa16c458ed6904a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.16175
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: b1038f50ef355ce4aa16c458ed6904a2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -508,7 +512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: b1038f50ef355ce4aa16c458ed6904a2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.6930478
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 8897093224900880590, guid: b1038f50ef355ce4aa16c458ed6904a2, type: 3}
       propertyPath: m_LocalRotation.w
