@@ -1,41 +1,66 @@
 using System.Net.NetworkInformation;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MoveController : MonoBehaviour
 {
+    public enum MoveDirection {
+        None,
+        Right,
+        Left,
+        Forward,
+        Backward
+    }
     private Vector2 input;
-
-    [SerializeField] float stepInterval = 0.2f;
-
-    private bool isCucuk = false;
-    public void OnMove(InputValue value)
-    {
-        if(isReleased(value)) {
-            move();
-            transform.localScale = Vector3.one;
-            isCucuk = false;
+    private MoveDirection currentDir = MoveDirection.None;
+    void OnForward(InputValue value) {
+        if(currentDir == MoveDirection.None) {
+            currentDir = MoveDirection.Forward;
+            input = Vector2.up;
+            doSqueeze();
         }
-
-
-        input = value.Get<Vector2>();
-        
-        if(input.magnitude != 1) {
-            input = Vector2.zero;
-        } else {
-            if(!isCucuk) {
-                Vector3 scale = transform.localScale;
-                scale.y /= 2; 
-                transform.localScale = scale;
-
-                isCucuk = true;
-            }
-            
+        if(currentDir == MoveDirection.Forward && !value.isPressed) {
+            move();
+            currentDir = MoveDirection.None;
+            undoSqueeze();
         }
     }
-
-    bool isReleased(InputValue value) {
-        return value.Get<Vector2>() == Vector2.zero;
+    void OnBackward(InputValue value) {
+        if(currentDir == MoveDirection.None) {
+            currentDir = MoveDirection.Backward;
+            input = Vector2.down;
+            doSqueeze();
+        }
+        if(currentDir == MoveDirection.Backward && !value.isPressed) {
+            move();
+            currentDir = MoveDirection.None;
+            undoSqueeze();
+        }
+    }
+    void OnLeft(InputValue value) {
+        if(currentDir == MoveDirection.None) {
+            currentDir = MoveDirection.Left;
+            input = Vector2.left;
+            doSqueeze();
+        }
+        if(currentDir == MoveDirection.Left && !value.isPressed) {
+            move();
+            currentDir = MoveDirection.None;
+            undoSqueeze();
+        }
+    }
+    void OnRight(InputValue value) {
+        if(currentDir == MoveDirection.None) {
+            currentDir = MoveDirection.Right;
+            input = Vector2.right;
+            doSqueeze();
+        }
+        if(currentDir == MoveDirection.Right && !value.isPressed) {
+            move();
+            currentDir = MoveDirection.None;
+            undoSqueeze();
+        }
     }
     void move()
     {
@@ -45,7 +70,15 @@ public class MoveController : MonoBehaviour
             move = move.normalized;
         transform.position += move;
     }
+    void doSqueeze() {
+        Vector3 scale = transform.localScale;
+        scale.y /= 2; 
+        transform.localScale = scale;
+    }
 
+    void undoSqueeze() {
+        transform.localScale = Vector3.one;
+    }
     void Update() {
         
     }
