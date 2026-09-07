@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -175,7 +177,9 @@ public class MoveController : MonoBehaviour
         isMoving = true;
 
         Vector3 startPosition = transform.position;
+        Quaternion startRotation = transform.rotation;
         Vector3 targetPosition = startPosition + direction;
+        Quaternion targetRotation = getTargetRotation(direction);
 
         float elapsed = 0f;
 
@@ -191,24 +195,54 @@ public class MoveController : MonoBehaviour
                 t
             );
 
+            Quaternion rotation = Quaternion.Lerp(
+                startRotation,
+                targetRotation,
+                t
+            );
+
             position.y += Mathf.Sin(t * Mathf.PI) * hopHeight;
 
             transform.position = position;
-
+            transform.rotation = rotation;
             yield return null;
         }
-
         transform.position = targetPosition;
+        transform.rotation = targetRotation;
 
         isMoving = false;
 
-        if (hasBufferedMove && Time.time - bufferedTime <= bufferTime)
+        if (hasBufferedMove && (Time.time - bufferedTime <= bufferTime))
         {
             input = bufferedInput;
             move();
         }
 
         hasBufferedMove = false;
+    }
+
+    private Quaternion getTargetRotation(Vector3 direction)
+    {
+        if (direction == Vector3.forward)
+        {
+            Debug.Log("FORWARD");
+            return Quaternion.Euler(0, 0, 0);
+        }
+        else if (direction == Vector3.back)
+        {
+            Debug.Log("BACKWARD");
+            return Quaternion.Euler(0, 180, 0);
+        }
+        else if (direction == Vector3.right)
+        {
+            Debug.Log("RIGHT");
+            return Quaternion.Euler(0, 90, 0);
+        }
+        else
+        {
+            Debug.Log("LEFT");
+            return Quaternion.Euler(0, -90, 0);
+        }
     }
 
     void Update()
