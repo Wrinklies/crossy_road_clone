@@ -24,6 +24,8 @@ public class MoveController : MonoBehaviour
     [SerializeField] private float squeezeDuration = 0.3f;
     [SerializeField] private float bufferTime = 0.3f;
 
+    [SerializeField] private Vector2 squeezeScale = new Vector2(1.2f, 0.5f);
+
     private bool isMoving = false;
     private Coroutine squeezeCoroutine;
 
@@ -122,8 +124,8 @@ public class MoveController : MonoBehaviour
     {
         Vector3 startScale = transform.localScale;
         Vector3 targetScale = new Vector3(
-            startScale.x,
-            0.5f,
+            squeezeScale.x,
+            squeezeScale.y,
             startScale.z
         );
 
